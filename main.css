@@ -4,16 +4,19 @@ body {
 }
 
 header {
-    width: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     line-height: 1;
-    gap: 1rem;
 }
 .nav {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 1.5rem;
     font-size: 0.5em;
 }
 .nav .nav__list {
@@ -24,6 +27,9 @@ header {
 }
 
 .header {
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -40,6 +46,7 @@ header {
 /* Scroll Section */
 .scroll-section {
     padding-top: 50dvh;
+    border: 1px solid #888;
 }
 
 #ss__0 h1 {
@@ -97,7 +104,10 @@ header {
 }
 
 /* Sticky */
-.current-scene .sticky {
+.current-scene-0 .sticky,
+.current-scene-1 .sticky,
+.current-scene-2 .sticky,
+.current-scene-3 .sticky {
     display: block;
 }
 .sticky {
@@ -111,4 +121,19 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.nav,
+.header,
+.scroll-section,
+.footer {
+    padding: 0.5rem;
+}
+@media (min-width: 600px) {
+    .nav,
+    .header,
+    .scroll-section,
+    .footer {
+        padding: 1rem;
+    }
 }
