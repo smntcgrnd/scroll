@@ -4,6 +4,7 @@
     let currentY = 0;  // Current scroll y offset
     let prevHeight = 0; // 이전 섹션 높이 합
     let currentScene = 0;   // 현재 화면에 보이는 scene
+    let checkSceneChanged = false; // 새로운 섹션이 시작되면 true
     const sceneInfo = [{
         // 0
         type: 'sticky',
@@ -102,23 +103,27 @@
 
     // Track current scene.
     const setCurrentScene = () => {
+        checkSceneChanged = false;  // Scene이 넘어가는 시점 표기
         prevHeight = 0;
         for (let i = 0; i < currentScene; i++) {
             prevHeight += sceneInfo[i].scrollHeight;
         }
 
         if (currentY > prevHeight + sceneInfo[currentScene].scrollHeight) {
+            checkSceneChanged = true;   // Scene is changed
             currentScene++;
             // body에 현재 활성화된 scene class 지정
             document.body.setAttribute('class', `current-scene-${currentScene}`);
         }
         if (currentY < prevHeight) {
+            checkSceneChanged = true;   // Scene is changed
             if (currentY === 0) return; // Safari Mobile 최상단 바운스 시 -1 값 방지
             currentScene--;
             // body에 현재 활성화된 scene class 지정
             document.body.setAttribute('class', `current-scene-${currentScene}`);
         }
 
+        if (checkSceneChanged) return;  // Scene 변경 순간에는 애니메이션 함수 무시
         playAnimation();
     }
 
