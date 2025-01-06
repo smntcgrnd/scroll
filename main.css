@@ -60,7 +60,9 @@ header {
     align-items: center;
     margin: 0.5rem 0;
     text-align: center;
+    opacity: 0;
 }
+
 
 /* General */
 #ss__1 p {

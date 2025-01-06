@@ -68,7 +68,8 @@
 
     // Calculate animation option value
     const calcValues = (values, currentYOffset) => {
-
+        let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight
+        return scrollRatio * (values[1] - values[0]) + values[0];
     }
 
     // Control animation
@@ -76,11 +77,13 @@
         const objs = sceneInfo[currentScene].objs;
         const values = sceneInfo[currentScene].values;
         const currentYOffset = currentY - prevHeight;
-        console.log("currentYOffset: " + currentScene + ", " + currentYOffset);
+
         switch (currentScene) {
             case 0:
                 // Scene 0의 스크롤 값
+                let textA_opacity_start = calcValues(values.textA_opacity, currentYOffset);
                 // CSS 세팅
+                objs.textA.style.opacity = textA_opacity_start;
                 break;
 
             case 1:
