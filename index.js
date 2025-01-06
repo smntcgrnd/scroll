@@ -10,7 +10,14 @@
         heightNum: 5,
         scrollHeight: 0,
         objs: {
-            container: document.querySelector("#ss__0")
+            container: document.querySelector("#ss__0"),
+            textA: document.querySelector("#ss__0 .text_a"),
+            textB: document.querySelector("#ss__0 .text_b"),
+            textC: document.querySelector("#ss__0 .text_c"),
+            textD: document.querySelector("#ss__0 .text_d"),
+        },
+        values: {
+            textA_opacity: [0, 1]
         }
     }, {
         // 1
@@ -59,6 +66,37 @@
         document.body.setAttribute("class", `current-scene-${currentScene}`);
     }
 
+    // Calculate animation option value
+    const calcValues = (values, currentYOffset) => {
+
+    }
+
+    // Control animation
+    const playAnimation = () => {
+        const objs = sceneInfo[currentScene].objs;
+        const values = sceneInfo[currentScene].values;
+        const currentYOffset = currentY - prevHeight;
+        console.log("currentYOffset: " + currentScene + ", " + currentYOffset);
+        switch (currentScene) {
+            case 0:
+                // Scene 0의 스크롤 값
+                // CSS 세팅
+                break;
+
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            default:
+                console.log("Error!");
+        }
+    }
+
     // Track current scene.
     const setCurrentScene = () => {
         prevHeight = 0;
@@ -77,6 +115,8 @@
             // body에 현재 활성화된 scene class 지정
             document.body.setAttribute('class', `current-scene-${currentScene}`);
         }
+
+        playAnimation();
     }
 
     window.addEventListener('scroll', () => {

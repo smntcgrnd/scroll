@@ -105,7 +105,7 @@ header {
 
 /* Sticky */
 .current-scene-0 #ss__0 .sticky,
-.current-scene-1 #ss__1.sticky,
+.current-scene-1 #ss__1 .sticky,
 .current-scene-2 #ss__2 .sticky,
 .current-scene-3 #ss__3 .sticky {
     display: block;
