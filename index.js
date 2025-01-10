@@ -54,9 +54,15 @@
     //  레이아웃 초기화
     const setLayout = () => {
         //  각 스크롤 섹션의 높이 세팅
+        // type === normal인 경우 기본 컨테이너 높이 적용
         sceneInfo.forEach((scene) => {
-            scene.scrollHeight = scene.heightNum * window.innerHeight;
-            scene.objs.container.style.height = `${scene.scrollHeight}px`
+            if (scene.type === "sticky") {
+                scene.scrollHeight = scene.heightNum * window.innerHeight;
+            } else if(scene.type === "normal") {
+                scene.scrollHeight = scene.objs.container.offsetHeight;
+            }
+
+            scene.objs.container.style.height = `${scene.scrollHeight}px`;
         });
 
         // 페이지 새로고침 시
