@@ -52,6 +52,7 @@ header {
 #ss__0 h1 {
     font-size: min(12dvw, 120px);
     text-align: center;
+    padding-top: 35dvh;
 }
 
 .desc__main {
@@ -116,7 +117,7 @@ header {
     display: none;
     width: 100%;
     position: fixed;
-    top: 0;
+    top: 35dvh;
     left: 0;
 }
 footer {

@@ -18,7 +18,12 @@
             textD: document.querySelector("#ss__0 .text_d"),
         },
         values: {
-            textA_opacity: [0, 1]
+            textA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
+            textA_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
+            textA_opacity_out: [1, 0, { start: 0.25, end: 0.35 }],
+            textA_translateY_out: [0, -20, { start: 0.25, end: 0.35 }],
+            textB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
+            textB_opacity_out: [],
         }
     }, {
         // 1
@@ -69,8 +74,33 @@
 
     // Calculate animation option value
     const calcValues = (values, currentYOffset) => {
-        let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight
-        return scrollRatio * (values[1] - values[0]) + values[0];
+        let rv = 0;
+        const scrollHeight = sceneInfo[currentScene].scrollHeight;
+        const scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight
+
+        // 애니메이션의 시작, 종료 시점이 명시된 경우
+        if (values.length === 3) {
+            // start, end 사이에 애니메이션 실행
+            const partScrollStart = values[2].start * scrollHeight;
+            const partScrollEnd = values[2].end * scrollHeight;
+            const partScrollHeight = partScrollEnd - partScrollStart;
+            const partScrollRatio = (currentYOffset - partScrollStart) / partScrollHeight;
+
+            if (currentYOffset >= partScrollStart && currentYOffset <= partScrollEnd) {
+            // 범위 안
+                rv = partScrollRatio * (values[1] - values[0]) + values[0];
+            } else if (currentYOffset < partScrollStart) {
+            // 범위 이전
+                rv = values[0];
+            } else if (currentYOffset > partScrollEnd) {
+            // 범위 이후
+                rv = values[1];
+            }
+        } else {
+            rv = scrollRatio * (values[1] - values[0]) + values[0];
+        }
+
+        return rv;
     }
 
     // Control animation
@@ -78,13 +108,28 @@
         const objs = sceneInfo[currentScene].objs;
         const values = sceneInfo[currentScene].values;
         const currentYOffset = currentY - prevHeight;
+        const currentScrollHeight = sceneInfo[currentScene].scrollHeight;
+        const currentScrollRatio = currentYOffset / currentScrollHeight;
 
         switch (currentScene) {
             case 0:
                 // Scene 0의 스크롤 값
-                let textA_opacity_start = calcValues(values.textA_opacity, currentYOffset);
+                const textA_opacity_in = calcValues(values.textA_opacity_in, currentYOffset);
+                const textA_opacity_out = calcValues(values.textA_opacity_out, currentYOffset);
+                const textA_translateY_in = calcValues(values.textA_translateY_in, currentYOffset);
+                const textA_translateY_out = calcValues(values.textA_translateY_out, currentYOffset);
+
                 // CSS 세팅
-                objs.textA.style.opacity = textA_opacity_start;
+                if (currentScrollRatio <= 0.22) {
+                    // in
+                    objs.textA.style.opacity = textA_opacity_in;
+                    objs.textA.style.transform = `translateY(${textA_translateY_in}%)`
+                } else {
+                    // out
+                    objs.textA.style.opacity = textA_opacity_out;
+                    objs.textA.style.transform = `translateY(${textA_translateY_out}%)`
+                }
+
                 break;
 
             case 1:
