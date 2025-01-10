@@ -19,16 +19,25 @@
         },
         values: {
             textA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
-            textA_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
-            textA_opacity_out: [1, 0, { start: 0.25, end: 0.35 }],
-            textA_translateY_out: [0, -20, { start: 0.25, end: 0.35 }],
             textB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
-            textB_opacity_out: [],
+            textC_opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
+            textD_opacity_in: [0, 1, { start: 0.7, end: 0.8 }],
+            textA_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
+            textB_translateY_in: [20, 0, { start: 0.3, end: 0.4 }],
+            textC_translateY_in: [20, 0, { start: 0.5, end: 0.6 }],
+            textD_translateY_in: [20, 0, { start: 0.7, end: 0.8 }],
+            textA_opacity_out: [1, 0, { start: 0.25, end: 0.3 }],
+            textB_opacity_out: [1, 0, { start: 0.45, end: 0.5 }],
+            textC_opacity_out: [1, 0, { start: 0.65, end: 0.7 }],
+            textD_opacity_out: [1, 0, { start: 0.85, end: 0.9 }],
+            textA_translateY_out: [0, -20, { start: 0.25, end: 0.3 }],
+            textB_translateY_out: [0, -20, { start: 0.45, end: 0.5 }],
+            textC_translateY_out: [0, -20, { start: 0.65, end: 0.7 }],
+            textD_translateY_out: [0, -20, { start: 0.85, end: 0.9 }]
         }
     }, {
         // 1
         type: 'normal',
-        heightNum: 5,
         scrollHeight: 0,
         objs: {
             container: document.querySelector("#ss__1")
@@ -39,7 +48,32 @@
         heightNum: 5,
         scrollHeight: 0,
         objs: {
-            container: document.querySelector("#ss__2")
+            container: document.querySelector("#ss__2"),
+            textA: document.querySelector("#ss__2 .text_a"),
+            textB: document.querySelector("#ss__2 .text_b"),
+            textC: document.querySelector("#ss__2 .text_c"),
+            pinB: document.querySelector("#ss__2 .text_b .pin"),
+            pinC: document.querySelector("#ss__2 .text_c .pin"),
+        },
+        values: {
+            textA_translateY_in: [20, 0, { start: 0.15, end: 0.2 }],
+            textB_translateY_in: [30, 0, { start: 0.5, end: 0.55 }],
+            textC_translateY_in: [30, 0, { start: 0.72, end: 0.77 }],
+            textA_opacity_in: [0, 1, { start: 0.15, end: 0.2 }],
+            textB_opacity_in: [0, 1, { start: 0.5, end: 0.55 }],
+            textC_opacity_in: [0, 1, { start: 0.72, end: 0.77 }],
+            textA_translateY_out: [0, -20, { start: 0.3, end: 0.35 }],
+            textB_translateY_out: [0, -20, { start: 0.58, end: 0.63 }],
+            textC_translateY_out: [0, -20, { start: 0.85, end: 0.9 }],
+            textA_opacity_out: [1, 0, { start: 0.3, end: 0.35 }],
+            textB_opacity_out: [1, 0, { start: 0.58, end: 0.63 }],
+            textC_opacity_out: [1, 0, { start: 0.85, end: 0.9 }],
+            pinB_scaleY: [0.5, 1, { start: 0.5, end: 0.55 }],
+            pinC_scaleY: [0.5, 1, { start: 0.72, end: 0.77 }],
+            pinB_opacity_in: [0, 1, { start: 0.5, end: 0.55 }],
+            pinC_opacity_in: [0, 1, { start: 0.72, end: 0.77 }],
+            pinB_opacity_out: [1, 0, { start: 0.58, end: 0.63 }],
+            pinC_opacity_out: [1, 0, { start: 0.85, end: 0.9 }]
         }
     },{
         // 4
@@ -119,23 +153,84 @@
 
         switch (currentScene) {
             case 0:
-                // CSS 세팅
                 if (currentScrollRatio <= 0.22) {
                     // in
                     objs.textA.style.opacity = calcValues(values.textA_opacity_in, currentYOffset);
-                    objs.textA.style.transform = `translateY(${calcValues(values.textA_translateY_in, currentYOffset)}%)`
+                    objs.textA.style.transform = `translate3d(0, ${calcValues(values.textA_translateY_in, currentYOffset)}%, 0)`;
                 } else {
                     // out
                     objs.textA.style.opacity = calcValues(values.textA_opacity_out, currentYOffset);
-                    objs.textA.style.transform = `translateY(${calcValues(values.textA_translateY_out, currentYOffset)}%)`
+                    objs.textA.style.transform = `translate3d(0, ${calcValues(values.textA_translateY_out, currentYOffset)}%, 0)`;
                 }
 
+                if (currentScrollRatio <= 0.42) {
+                    // in
+                    objs.textB.style.opacity = calcValues(values.textB_opacity_in, currentYOffset);
+                    objs.textB.style.transform = `translate3d(0, ${calcValues(values.textB_translateY_out, currentYOffset)}%, 0)`;
+                } else {
+                    // out
+                    objs.textB.style.opacity = calcValues(values.textB_opacity_out, currentYOffset);
+                    objs.textB.style.transform = `translate3d(0, ${calcValues(values.textB_translateY_out, currentYOffset)}%, 0)`;
+                }
+
+                if (currentScrollRatio <= 0.62) {
+                    // in
+                    objs.textC.style.opacity = calcValues(values.textC_opacity_in, currentYOffset);
+                    objs.textC.style.transform = `translate3d(0, ${calcValues(values.textC_translateY_in, currentYOffset)}%, 0)`;
+                } else {
+                    // out
+                    objs.textC.style.opacity = calcValues(values.textC_opacity_out, currentYOffset);
+                    objs.textC.style.transform = `translate3d(0, ${calcValues(values.textC_translateY_out, currentYOffset)}%, 0)`;
+                }
+
+                if (currentScrollRatio <= 0.82) {
+                    // in
+                    objs.textD.style.opacity = calcValues(values.textD_opacity_in, currentYOffset);
+                    objs.textD.style.transform = `translate3d(0, ${calcValues(values.textD_translateY_in, currentYOffset)}%, 0)`;
+                } else {
+                    // out
+                    objs.textD.style.opacity = calcValues(values.textD_opacity_out, currentYOffset);
+                    objs.textD.style.transform = `translate3d(0, ${calcValues(values.textD_translateY_out, currentYOffset)}%, 0)`;
+                }
                 break;
 
             case 1:
                 break;
 
             case 2:
+                if (currentScrollRatio <= 0.25) {
+                    // in
+                    objs.textA.style.opacity = calcValues(values.textA_opacity_in, currentYOffset);
+                    objs.textA.style.transform = `translate3d(0, ${calcValues(values.textA_translateY_in, currentYOffset)}%, 0)`;
+                } else {
+                    // out
+                    objs.textA.style.opacity = calcValues(values.textA_opacity_out, currentYOffset);
+                    objs.textA.style.transform = `translate3d(0, ${calcValues(values.textA_translateY_out, currentYOffset)}%, 0)`;
+                }
+
+                if (currentScrollRatio <= 0.57) {
+                    // in
+                    objs.textB.style.transform = `translate3d(0, ${calcValues(values.textB_translateY_in, currentYOffset)}%, 0)`;
+                    objs.textB.style.opacity = calcValues(values.textB_opacity_in, currentYOffset);
+                    objs.pinB.style.transform = `scaleY(${calcValues(values.pinB_scaleY, currentYOffset)})`;
+                } else {
+                    // out
+                    objs.textB.style.transform = `translate3d(0, ${calcValues(values.textB_translateY_out, currentYOffset)}%, 0)`;
+                    objs.textB.style.opacity = calcValues(values.textB_opacity_out, currentYOffset);
+                    objs.pinB.style.transform = `scaleY(${calcValues(values.pinB_scaleY, currentYOffset)})`;
+                }
+
+                if (currentScrollRatio <= 0.83) {
+                    // in
+                    objs.textC.style.transform = `translate3d(0, ${calcValues(values.textC_translateY_in, currentYOffset)}%, 0)`;
+                    objs.textC.style.opacity = calcValues(values.textC_opacity_in, currentYOffset);
+                    objs.pinC.style.transform = `scaleY(${calcValues(values.pinC_scaleY, currentYOffset)})`;
+                } else {
+                    // out
+                    objs.textC.style.transform = `translate3d(0, ${calcValues(values.textC_translateY_out, currentYOffset)}%, 0)`;
+                    objs.textC.style.opacity = calcValues(values.textC_opacity_out, currentYOffset);
+                    objs.pinC.style.transform = `scaleY(${calcValues(values.pinC_scaleY, currentYOffset)})`;
+                }
                 break;
 
             case 3:

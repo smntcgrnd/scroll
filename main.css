@@ -48,7 +48,19 @@ header {
     padding-top: 50dvh;
     border: 1px solid #888;
 }
-
+/* Sticky */
+.current-scene-0 #ss__0 .sticky,
+.current-scene-1 #ss__1 .sticky,
+.current-scene-2 #ss__2 .sticky,
+.current-scene-3 #ss__3 .sticky {
+    display: block;
+}
+.sticky {
+    display: none;
+    width: 100%;
+    position: fixed;
+    top: 35dvh;
+}
 #ss__0 h1 {
     font-size: min(12dvw, 120px);
     text-align: center;
@@ -66,6 +78,9 @@ header {
 
 
 /* General */
+#ss__1 {
+    font-size: max(2.5dvw, 16px);
+}
 #ss__1 p {
     color: #888;
 }
@@ -77,17 +92,43 @@ header {
 }
 
 #ss__2 .desc__main {
-    font-size: 2.5em;
+    font-size: 6dvw;
 }
 #ss__2 .desc__main small {
     display: block;
     font-weight: 800;
     margin-bottom: 0.5em;
 }
+
+/* pin text */
 #ss__2 .desc__pin {
     width: 50%;
     font-weight: 800;
+    font-size: 50%;
 }
+#ss__2 .desc__pin.text_b {
+    top: 10%;
+    left: 40%;
+}
+#ss__2 .desc__pin.text_c {
+    top: 15%;
+    left: 45%;
+}
+@media (min-width: 600px) {
+    #ss__2 .desc__pin {
+        width: 30%;
+        font-weight: 800;
+        font-size: 50%;
+    }
+    #ss__2 .desc__pin.text_b {
+        top: 20%;
+        left: 50%;
+    }
+    #ss__2 .desc__pin.text_c {
+        left: 55%;
+    }
+}
+
 #ss__2 .pin {
     width: 1px;
     height: 100px;
@@ -106,20 +147,6 @@ header {
     text-align: center;
 }
 
-/* Sticky */
-.current-scene-0 #ss__0 .sticky,
-.current-scene-1 #ss__1 .sticky,
-.current-scene-2 #ss__2 .sticky,
-.current-scene-3 #ss__3 .sticky {
-    display: block;
-}
-.sticky {
-    display: none;
-    width: 100%;
-    position: fixed;
-    top: 35dvh;
-    left: 0;
-}
 footer {
     display: flex;
     justify-content: center;
