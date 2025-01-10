@@ -119,21 +119,15 @@
 
         switch (currentScene) {
             case 0:
-                // Scene 0의 스크롤 값
-                const textA_opacity_in = calcValues(values.textA_opacity_in, currentYOffset);
-                const textA_opacity_out = calcValues(values.textA_opacity_out, currentYOffset);
-                const textA_translateY_in = calcValues(values.textA_translateY_in, currentYOffset);
-                const textA_translateY_out = calcValues(values.textA_translateY_out, currentYOffset);
-
                 // CSS 세팅
                 if (currentScrollRatio <= 0.22) {
                     // in
-                    objs.textA.style.opacity = textA_opacity_in;
-                    objs.textA.style.transform = `translateY(${textA_translateY_in}%)`
+                    objs.textA.style.opacity = calcValues(values.textA_opacity_in, currentYOffset);
+                    objs.textA.style.transform = `translateY(${calcValues(values.textA_translateY_in, currentYOffset)}%)`
                 } else {
                     // out
-                    objs.textA.style.opacity = textA_opacity_out;
-                    objs.textA.style.transform = `translateY(${textA_translateY_out}%)`
+                    objs.textA.style.opacity = calcValues(values.textA_opacity_out, currentYOffset);
+                    objs.textA.style.transform = `translateY(${calcValues(values.textA_translateY_out, currentYOffset)}%)`
                 }
 
                 break;
