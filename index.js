@@ -16,8 +16,13 @@
             textB: document.querySelector("#ss__0 .text_b"),
             textC: document.querySelector("#ss__0 .text_c"),
             textD: document.querySelector("#ss__0 .text_d"),
+            canvas: document.querySelector("#canvas__video_0"),
+            context: document.querySelector("#canvas__video_0").getContext("2d"),
+            videoImages: []
         },
         values: {
+            videoImageCount: 601,
+            videoSequence: [1, 601],
             textA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
             textB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
             textC_opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
@@ -85,10 +90,28 @@
         }
     }];
 
+    // 캔버스
+    const setCanvasImages = () => {
+        let imageElem;
+        for (let i = 0; i < sceneInfo[0].values.videoImageCount; i++) {
+            imageElem = document.createElement("img");
+            imageElem.src = `./assets/video/particles/${i + 1}.png`;
+            sceneInfo[0].objs.videoImages.push(imageElem);
+        }
+    }
+    setCanvasImages();
+
     //  레이아웃 초기화
     const setLayout = () => {
+        // Set canvas size
+        const heightRatio = window.innerHeight / 1080;
+        console.log("heightRatio: " + heightRatio);
+        // sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
+        sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0)`;
+
+
         //  각 스크롤 섹션의 높이 세팅
-        // type === normal인 경우 기본 컨테이너 높이 적용
+        // type === normal 경우 기본 컨테이너 높이 적용
         sceneInfo.forEach((scene) => {
             if (scene.type === "sticky") {
                 scene.scrollHeight = scene.heightNum * window.innerHeight;
@@ -153,6 +176,11 @@
 
         switch (currentScene) {
             case 0:
+                // Video Animation Play
+                let sequence = Math.round(calcValues(values.videoSequence, currentYOffset));
+                objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+                console.log(sequence);
+                // Text Animation Play
                 if (currentScrollRatio <= 0.22) {
                     // in
                     objs.textA.style.opacity = calcValues(values.textA_opacity_in, currentYOffset);
@@ -249,6 +277,7 @@
             prevHeight += sceneInfo[i].scrollHeight;
         }
 
+        console.log("currentScene: " + currentScene);
         if (currentY > prevHeight + sceneInfo[currentScene].scrollHeight) {
             checkSceneChanged = true;   // Scene is changed
             currentScene++;
@@ -273,7 +302,11 @@
     })
 
     // Update scene height if window is reloaded.
-    window.addEventListener('load', setLayout);
+    window.addEventListener('load', () => {
+        setLayout();
+        // set video first image
+        sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
+    });
     // Update scene height if window size is changed.
     window.addEventListener('resize', setLayout);
 

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 :root {
-    --color-black: rgb(29, 29, 31);
+    --color-black: rgb(10, 10, 10);
     --color-white: rgb(255, 255, 255);
     --color-gray: rgb(238, 238, 238);
 }
@@ -23,12 +23,12 @@ body {
     -webkit-font-smoothing: antialiased;
     font-family: "Hahmlet", serif;
     font-optical-sizing: auto;
-    color: var(--color-black);
+    color: var(--color-white);
     font-weight: 500;
     font-style: normal;
     font-size: 6.5dvw;
     letter-spacing: -0.04em;
-    background-color: var(--color-white);
+    background-color: var(--color-black);
     overflow-x: hidden;
 }
 

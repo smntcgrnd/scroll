@@ -10,7 +10,7 @@ header {
     justify-content: center;
     align-items: center;
     line-height: 1;
-    z-index: 1;
+    z-index: 5;
 }
 .nav {
     position: absolute;
@@ -47,7 +47,6 @@ header {
 /* Scroll Section */
 .scroll-section {
     padding-top: 50dvh;
-    border: 1px solid #888;
 }
 /* Sticky */
 .current-scene-0 #ss__0 .sticky,
@@ -64,12 +63,19 @@ header {
     width: 100%;
 }
 .sticky.canvas {
+    height: 100%;
     top: 0;
-    background-color: #888888;
+}
+.sticky.canvas canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%
 }
 
 /* Scene 0 */
 #ss__0 h1 {
+    position: relative;
+    z-index: 1;
     font-size: min(12dvw, 120px);
     text-align: center;
     padding-top: 35dvh;
@@ -87,15 +93,15 @@ header {
 
 /* General */
 #ss__1 {
-    font-size: max(2.5dvw, 16px);
+    font-size: max(2.5dvw, 24px);
 }
 #ss__1 p {
-    color: #888;
+    color: var(--color-white);
 }
 #ss__1 p strong {
     float: left;
     font-size: max(6dvw, 64px);
-    color: rgba(29, 29, 31);
+    color: var(--color-white);
     margin-right: 0.2em;
 }
 
@@ -104,14 +110,14 @@ header {
 }
 #ss__2 .desc__main small {
     display: block;
-    font-weight: 800;
+    font-weight: 600;
     margin-bottom: 0.5em;
 }
 
 /* pin text */
 #ss__2 .desc__pin {
     width: 50%;
-    font-weight: 800;
+    font-weight: 400;
     font-size: 50%;
 }
 #ss__2 .desc__pin.text_b {
@@ -125,8 +131,8 @@ header {
 @media (min-width: 600px) {
     #ss__2 .desc__pin {
         width: 30%;
-        font-weight: 800;
-        font-size: 50%;
+        font-weight: 600;
+        font-size: 80%;
     }
     #ss__2 .desc__pin.text_b {
         top: 20%;
@@ -140,18 +146,18 @@ header {
 #ss__2 .pin {
     width: 1px;
     height: 100px;
-    background-color: rgb(29, 29, 31);
+    background-color: var(--color-white);
 }
 
 #ss__3 .desc__mid {
-    color: #888;
+    color: var(--color-white);
 }
 #ss__3 .desc__mid strong {
-    color: rgb(29, 29, 31);
+    color: var(--color-white);
 }
 
 #ss__3 .canvas__caption {
-    color: #888;
+    color: var(--color-white);
     text-align: center;
 }
 
