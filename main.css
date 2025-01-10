@@ -76,7 +76,7 @@ header {
 #ss__0 h1 {
     position: relative;
     z-index: 1;
-    font-size: min(12dvw, 120px);
+    font-size: min(12dvw, 128px);
     text-align: center;
     padding-top: 35dvh;
 }

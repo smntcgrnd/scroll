@@ -23,6 +23,7 @@
         values: {
             videoImageCount: 601,
             videoSequence: [1, 601],
+            video_opacity: [1, 0, { start: 0.7, end: 0.9 }],
             textA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
             textB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
             textC_opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
@@ -179,7 +180,9 @@
                 // Video Animation Play
                 let sequence = Math.round(calcValues(values.videoSequence, currentYOffset));
                 objs.context.drawImage(objs.videoImages[sequence], 0, 0);
-                console.log(sequence);
+                // remove canvas
+                objs.canvas.style.opacity = calcValues(values.video_opacity, currentYOffset);
+
                 // Text Animation Play
                 if (currentScrollRatio <= 0.22) {
                     // in
