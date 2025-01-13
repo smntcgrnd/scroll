@@ -46,7 +46,6 @@ header {
 
 /* Scroll Section */
 .scroll-section {
-    padding-top: 50dvh;
     overflow-y: hidden;
 }
 /* Sticky */
@@ -77,12 +76,14 @@ header {
 }
 
 /* Scene 0 */
+#ss__0 {
+    padding-top: 50dvh;
+}
 #ss__0 h1 {
     position: relative;
     z-index: 1;
     font-size: min(12dvw, 128px);
     text-align: center;
-    padding-top: 35dvh;
 }
 
 .desc__main {
@@ -109,6 +110,10 @@ header {
     margin-right: 0.2em;
 }
 
+/* Scene 2 */
+#ss__2 {
+    padding-top: 50dvh;
+}
 #ss__2 .desc__main {
     font-size: 6dvw;
 }
@@ -159,6 +164,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 50dvh;
 }
 #ss__3 .desc__mid {
     color: var(--color-white);
