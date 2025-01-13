@@ -65,8 +65,8 @@
             videoImages: []
         },
         values: {
-            videoImageCount: 36,
-            videoSequence: [1, 36],
+            videoImageCount: 72,
+            videoSequence: [1, 72],
             video_opacity_in: [0, 1, { start: 0.1, end: 0.3 }],
             video_opacity_out: [1, 0, { start: 0.7, end: 0.9 }],
             textA_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
@@ -102,7 +102,8 @@
         },
         values: {
             imagePath: ["./assets/image/spaceship.jpg", "./assets/image/moon.jpg"],
-
+            rectLeftX: [0, 0, { start: 0, end: 0 }],
+            rectRightX: [0, 0, { start: 0, end: 0 }]
         }
     }];
 
@@ -317,13 +318,27 @@
 
                 console.log("width: " + objs.canvas.width);
                 // Canvas 사이즈 조정
-                // Canvas 기본 사이즈보다 홀쭉하면 세로 크키를 따르고,
-                // 납작하면 가로 크기를 따른다.
+                // Canvas 기본 사이즈보다 홀쭉하면 세로 크키를 따르고, 납작하면 가로 크기를 따른다.
                 let canvasScaleRatio = widthRatio <= heightRatio ? heightRatio : widthRatio;
                 objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
 
                 // Draw image
                 objs.context.drawImage(objs.images[0], 0, 0);
+
+                // 캔버스 좌우 여백 계산
+                const originCanvasWidth = window.innerWidth / canvasScaleRatio;
+                const rectWidth = originCanvasWidth * 0.15;
+
+                // 사각형 x 좌표 초기값
+                values.rectLeftX[0] = (objs.canvas.width - originCanvasWidth) / 2;
+                values.rectRightX[0] = values.rectLeftX + originCanvasWidth - rectWidth;
+                // 사각형 x 좌표 이동 목적지 값
+                values.rectLeftX[1] = values.rectLeftX[0] - rectWidth;
+                values.rectRightX[1] = values.rectRightX[0] + rectWidth;
+                // 사각형 그리기
+                objs.context.fillRect(values.rectLeftX[0], 0, parseInt(rectWidth), objs.canvas.height);
+                objs.context.fillRect(values.rectRightX[0], 0, parseInt(rectWidth), objs.canvas.height);
+
                 break;
 
             default:
