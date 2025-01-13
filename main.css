@@ -47,6 +47,7 @@ header {
 /* Scroll Section */
 .scroll-section {
     padding-top: 50dvh;
+    overflow-y: hidden;
 }
 /* Sticky */
 .current-scene-0 #ss__0 .sticky,
@@ -62,14 +63,18 @@ header {
     left: 0;
     width: 100%;
 }
-.sticky.canvas {
-    height: 100%;
+.sticky.canvas_video {
     top: 0;
+    height: 100%;
 }
-.sticky.canvas canvas {
+.sticky.canvas_video canvas {
     position: absolute;
     top: 50%;
-    left: 50%
+    left: 50%;
+}
+
+.canvas_image {
+    background-color: grey;
 }
 
 /* Scene 0 */
@@ -150,13 +155,18 @@ header {
     background-color: var(--color-white);
 }
 
+/* Scene 3 */
+#ss__3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 #ss__3 .desc__mid {
     color: var(--color-white);
 }
 #ss__3 .desc__mid strong {
     color: var(--color-white);
 }
-
 #ss__3 .canvas__caption {
     color: var(--color-white);
     text-align: center;

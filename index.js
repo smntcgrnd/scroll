@@ -89,17 +89,26 @@
             pinC_opacity_out: [1, 0, { start: 0.7, end: 0.8 }]
         }
     },{
-        // 4
+        // 3
         type: 'sticky',
         heightNum: 5,
         scrollHeight: 0,
         objs: {
-            container: document.querySelector("#ss__3")
+            container: document.querySelector("#ss__3"),
+            canvasCaption: document.querySelector("#ss__3 .canvas__caption"),
+            canvas: document.querySelector("#canvas__image_0"),
+            context: document.querySelector("#canvas__image_0").getContext("2d"),
+            images: [],
+        },
+        values: {
+            imagePath: ["./assets/image/spaceship.jpg", "./assets/image/moon.jpg"],
+
         }
     }];
 
     // 캔버스
     const setCanvasImages = () => {
+        // Video 0 세팅
         let imageElem_0;
         for (let i = 0; i < sceneInfo[0].values.videoImageCount; i++) {
             imageElem_0 = document.createElement("img");
@@ -107,25 +116,26 @@
             sceneInfo[0].objs.videoImages.push(imageElem_0);
         }
 
+        // Video 1 세팅
         let imageElem_1;
         for (let i = 0; i < sceneInfo[2].values.videoImageCount; i++) {
             imageElem_1 = document.createElement("img");
             imageElem_1.src = `./assets/video/spaceship/${i + 1}.png`;
             sceneInfo[2].objs.videoImages.push(imageElem_1);
         }
+
+        // Image 세팅
+        let imageElem_2
+        for (let i = 0; i < sceneInfo[3].values.imagePath.length; i++) {
+            imageElem_2 = document.createElement("img");
+            imageElem_2.src = sceneInfo[3].values.imagePath[i];
+            sceneInfo[3].objs.images.push(imageElem_2);
+        }
     }
     setCanvasImages();
 
     //  레이아웃 초기화
     const setLayout = () => {
-        // Set canvas size
-        const heightRatio = window.innerHeight / 1080;
-        console.log("heightRatio: " + heightRatio);
-        // sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
-        sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0)`;
-        sceneInfo[2].objs.canvas.style.transform = `translate3d(-50%, -50%, 0)`;
-
-
         //  각 스크롤 섹션의 높이 세팅
         // type === normal 경우 기본 컨테이너 높이 적용
         sceneInfo.forEach((scene) => {
@@ -144,11 +154,18 @@
         for (let i = 0; i < sceneInfo.length; i++) {
             totalHeight += sceneInfo[i].scrollHeight;
             if (totalHeight >= currentY) {
+                console.log("totalHeight: " + totalHeight);
+                console.log("currentY: " + currentY);
                 currentScene = i;
                 break;
             }
         }
         document.body.setAttribute("class", `current-scene-${currentScene}`);
+
+        // Set canvas size
+        const widthRatio = window.innerWidth / 1920;
+        sceneInfo[0].objs.canvas.style.transform = `translate(-50%, -50%) scale(${widthRatio})`;
+        sceneInfo[2].objs.canvas.style.transform = `translate(-50%, -50%) scale(${widthRatio})`;
     }
 
     // Calculate animation option value
@@ -190,6 +207,7 @@
         const currentScrollHeight = sceneInfo[currentScene].scrollHeight;
         const currentScrollRatio = currentYOffset / currentScrollHeight;
 
+        console.log("current: " + currentScene);
         switch (currentScene) {
             case 0:
                 // Video Animation Play
@@ -245,7 +263,6 @@
 
             case 2:
                 // Video Animation Play
-                console.log("scroll: " + currentScrollRatio)
                 let sequence_1 = Math.round(calcValues(values.videoSequence, currentYOffset));
                 objs.context.drawImage(objs.videoImages[sequence_1], 0, 0);
                 // remove canvas
@@ -294,6 +311,19 @@
                 break;
 
             case 3:
+                // Canvas image 가로, 세로 window에 fit 처리
+                const widthRatio = window.innerWidth / objs.canvas.width;
+                const heightRatio = window.innerHeight / objs.canvas.height;
+
+                console.log("width: " + objs.canvas.width);
+                // Canvas 사이즈 조정
+                // Canvas 기본 사이즈보다 홀쭉하면 세로 크키를 따르고,
+                // 납작하면 가로 크기를 따른다.
+                let canvasScaleRatio = widthRatio <= heightRatio ? heightRatio : widthRatio;
+                objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
+
+                // Draw image
+                objs.context.drawImage(objs.images[0], 0, 0);
                 break;
 
             default:
@@ -309,7 +339,6 @@
             prevHeight += sceneInfo[i].scrollHeight;
         }
 
-        console.log("currentScene: " + currentScene);
         if (currentY > prevHeight + sceneInfo[currentScene].scrollHeight) {
             checkSceneChanged = true;   // Scene is changed
             currentScene++;
