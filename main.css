@@ -72,7 +72,8 @@ header {
     left: 50%;
 }
 
-.canvas_image {
+.canvas_image.sticky-canvas {
+    position: fixed;
 }
 
 /* Scene 0 */

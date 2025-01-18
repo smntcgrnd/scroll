@@ -407,6 +407,22 @@
                     objs.canvas.height
                 );
 
+                let step;
+                // 캔버스 이미지 1이 상단에 닿기 전
+                if (currentScrollRatio < values.rectLeftX[2].end) {
+                    step = 1;
+                    objs.canvas.classList.remove("sticky-canvas");
+
+                } else {
+                    // 캔버스 이미지 1이 상단에 닿은 후
+                    // 이미지 블랜드 처리
+                    step = 2;
+                    // 캔버스 이미지 1 sticky 처리
+                    objs.canvas.classList.add("sticky-canvas");
+                    objs.canvas.style.top = `-${(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2}px`;
+                }
+
+                console.log("step: " + step);
                 break;
 
             default:
