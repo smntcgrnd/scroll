@@ -105,6 +105,7 @@
             rectLeftX: [0, 0, { start: 0, end: 0 }],
             rectRightX: [0, 0, { start: 0, end: 0 }],
             blendHeight: [0 , 0, { start: 0, end: 0 }],
+            canvas_scale: [0 , 0, { start: 0, end: 0 }],
             rectStartY: 0,
         }
     }];
@@ -390,10 +391,6 @@
                 values.rectRightX[0] = values.rectLeftX[0] + originCanvasWidth - rectWidth;
                 values.rectRightX[1] = values.rectRightX[0] + rectWidth;
 
-                // 사각형 그리기
-                console.log("rectLeftX: " + values.rectLeftX);
-                console.log("rectRightX: " + values.rectRightX);
-
                 // 사각형 이동 애니메이션 처리
                 objs.context.fillRect(
                     parseInt(calcValues(values.rectLeftX, currentYOffset)),
@@ -417,14 +414,15 @@
                 } else {
                     // 캔버스 이미지 1이 상단에 닿은 후
                     step = 2;
+
                     // 이미지 블랜드 처리
-                    // [0, 0, { start: 0, end: 0 }]
                     values.blendHeight[0] = 0;
                     values.blendHeight[1] = objs.canvas.height;
                     values.blendHeight[2].start = values.rectLeftX[2].end;    // 블렌드 애니메이션 시작 시점
                     values.blendHeight[2].end = values.blendHeight[2].start + 0.2;  // 블렌드 애니메이션 종료 시점
 
                     const blendHeight = calcValues(values.blendHeight, currentYOffset);
+
                     objs.context.drawImage(
                         objs.images[1],
                         0, objs.canvas.height - blendHeight, objs.canvas.width, blendHeight,
@@ -434,6 +432,17 @@
                     // 캔버스 이미지 1 sticky 처리
                     objs.canvas.classList.add("sticky-canvas");
                     objs.canvas.style.top = `-${(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2}px`;
+
+                    // 캔버스 이미지 2 스케일 축소
+                    if (currentScrollRatio > values.blendHeight[2].end) {
+                        values.canvas_scale[0] = canvasScaleRatio;
+                        values.canvas_scale[1] = document.body.offsetWidth / (objs.canvas.width * 1.5);
+                        values.canvas_scale[2].start = values.blendHeight[2].end;
+                        values.canvas_scale[2].end = values.canvas_scale[2].start + 0.2;
+
+                        objs.canvas.style.transform = `scale(${calcValues(values.canvas_scale, currentYOffset)})`;
+
+                    }
                 }
 
                 console.log("step: " + step);
