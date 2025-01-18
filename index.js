@@ -101,9 +101,10 @@
             images: [],
         },
         values: {
-            imagePath: ["./assets/image/spaceship.jpg", "./assets/image/moon.jpg"],
+            imagePath: ["./assets/image/eclipse.jpg", "./assets/image/moon.jpg"],
             rectLeftX: [0, 0, { start: 0, end: 0 }],
-            rectRightX: [0, 0, { start: 0, end: 0 }]
+            rectRightX: [0, 0, { start: 0, end: 0 }],
+            rectStartY: 0,
         }
     }];
 
@@ -155,8 +156,6 @@
         for (let i = 0; i < sceneInfo.length; i++) {
             totalHeight += sceneInfo[i].scrollHeight;
             if (totalHeight >= currentY) {
-                console.log("totalHeight: " + totalHeight);
-                console.log("currentY: " + currentY);
                 currentScene = i;
                 break;
             }
@@ -208,7 +207,6 @@
         const currentScrollHeight = sceneInfo[currentScene].scrollHeight;
         const currentScrollRatio = currentYOffset / currentScrollHeight;
 
-        console.log("current: " + currentScene);
         switch (currentScene) {
             case 0:
                 // Video Animation Play
@@ -309,6 +307,52 @@
                     objs.textC.style.opacity = calcValues(values.textC_opacity_out, currentYOffset);
                     objs.pinC.style.transform = `scaleY(${calcValues(values.pinC_scaleY, currentYOffset)})`;
                 }
+
+                // 캔버스 3 미리 그리기
+                if (currentScrollRatio > 0.9) {
+                    const objs = sceneInfo[3].objs;
+                    const values = sceneInfo[3].values;
+
+                    // Canvas image 가로, 세로 window에 fit 처리
+                    const widthRatio = window.innerWidth / objs.canvas.width;
+                    const heightRatio = window.innerHeight / objs.canvas.height;
+
+                    // Canvas 사이즈 조정
+                    // Canvas 기본 사이즈보다 홀쭉하면 세로 크키를 따르고, 납작하면 가로 크기를 따른다.
+                    let canvasScaleRatio = widthRatio <= heightRatio ? heightRatio : widthRatio;
+                    objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
+
+                    // Draw image
+                    objs.context.drawImage(objs.images[0], 0, 0);
+                    objs.context.fillStyle = "rgb(10, 10, 10)";
+
+                    // 캔버스 좌우 여백 계산
+                    const originCanvasWidth = document.body.offsetWidth / canvasScaleRatio;
+                    const originCanvasHeight = window.innerHeight / canvasScaleRatio;
+                    const rectWidth = originCanvasWidth * 0.15;
+
+                    // 왼쪽 사각형 x, y 좌표 초기값 설정
+                    values.rectLeftX[0] = (objs.canvas.width - originCanvasWidth) / 2;
+                    values.rectLeftX[1] = values.rectLeftX[0] - rectWidth;
+                    // 오른쪽 사각형 x, y 좌표 초기값 설정
+                    values.rectRightX[0] = values.rectLeftX[0] + originCanvasWidth - rectWidth;
+                    values.rectRightX[1] = values.rectRightX[0] + rectWidth;
+
+                    // 사각형 초기값 그리기
+                    objs.context.fillRect(
+                        parseInt(values.rectLeftX[0]),
+                        0,
+                        parseInt(rectWidth),
+                        objs.canvas.height
+                    );
+                    objs.context.fillRect(
+                        parseInt(values.rectRightX[0]),
+                        0,
+                        parseInt(rectWidth),
+                        objs.canvas.height
+                    );
+                }
+
                 break;
 
             case 3:
@@ -316,7 +360,6 @@
                 const widthRatio = window.innerWidth / objs.canvas.width;
                 const heightRatio = window.innerHeight / objs.canvas.height;
 
-                console.log("width: " + objs.canvas.width);
                 // Canvas 사이즈 조정
                 // Canvas 기본 사이즈보다 홀쭉하면 세로 크키를 따르고, 납작하면 가로 크기를 따른다.
                 let canvasScaleRatio = widthRatio <= heightRatio ? heightRatio : widthRatio;
@@ -324,20 +367,45 @@
 
                 // Draw image
                 objs.context.drawImage(objs.images[0], 0, 0);
+                objs.context.fillStyle = "rgb(10, 10, 10)";
 
                 // 캔버스 좌우 여백 계산
-                const originCanvasWidth = window.innerWidth / canvasScaleRatio;
+                const originCanvasWidth = document.body.offsetWidth / canvasScaleRatio;
+                const originCanvasHeight = window.innerHeight / canvasScaleRatio;
                 const rectWidth = originCanvasWidth * 0.15;
 
-                // 사각형 x 좌표 초기값
+                if (values.rectStartY === 0) {
+                    values.rectStartY = objs.canvas.offsetTop + (objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2;
+                    values.rectLeftX[2].start = (window.innerHeight / 3) / currentScrollHeight;
+                    values.rectRightX[2].start = (window.innerHeight / 3) / currentScrollHeight ;
+                    values.rectLeftX[2].end = values.rectStartY / currentScrollHeight;
+                    values.rectRightX[2].end = values.rectStartY / currentScrollHeight;
+                }
+
+                // 왼쪽 사각형 x, y 좌표 초기값 설정
                 values.rectLeftX[0] = (objs.canvas.width - originCanvasWidth) / 2;
-                values.rectRightX[0] = values.rectLeftX + originCanvasWidth - rectWidth;
-                // 사각형 x 좌표 이동 목적지 값
                 values.rectLeftX[1] = values.rectLeftX[0] - rectWidth;
+                // 오른쪽 사각형 x, y 좌표 초기값 설정
+                values.rectRightX[0] = values.rectLeftX[0] + originCanvasWidth - rectWidth;
                 values.rectRightX[1] = values.rectRightX[0] + rectWidth;
+
                 // 사각형 그리기
-                objs.context.fillRect(values.rectLeftX[0], 0, parseInt(rectWidth), objs.canvas.height);
-                objs.context.fillRect(values.rectRightX[0], 0, parseInt(rectWidth), objs.canvas.height);
+                console.log("rectLeftX: " + values.rectLeftX);
+                console.log("rectRightX: " + values.rectRightX);
+
+                // 사각형 이동 애니메이션 처리
+                objs.context.fillRect(
+                    parseInt(calcValues(values.rectLeftX, currentYOffset)),
+                    0,
+                    parseInt(rectWidth),
+                    objs.canvas.height
+                );
+                objs.context.fillRect(
+                    parseInt(calcValues(values.rectRightX, currentYOffset)),
+                    0,
+                    parseInt(rectWidth),
+                    objs.canvas.height
+                );
 
                 break;
 
