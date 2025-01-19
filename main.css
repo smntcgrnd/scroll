@@ -130,6 +130,7 @@ header {
 /* Scene 0 */
 #ss__0 {
     padding-top: 50dvh;
+    overflow-y: visible;
 }
 #ss__0 h1 {
     position: relative;
