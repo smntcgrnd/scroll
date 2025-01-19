@@ -504,26 +504,31 @@
         playAnimation();
     }
 
-    window.addEventListener('scroll', () => {
-        currentY = window.scrollY;
-        setCurrentScene();
-        handleHeader();
-    })
+
+    const init = () => {
+        window.addEventListener('scroll', () => {
+            currentY = window.scrollY;
+            setCurrentScene();
+            handleHeader();
+        })
+        // Update scene height if window size is changed.
+        window.addEventListener('resize', setLayout);
+
+        // 로딩 Element 제거: transition 끝난 후 처리
+        document.querySelector(".loading").addEventListener("transitionend", (e) => {
+            document.body.removeChild(e.currentTarget);
+        })
+    }
 
     // Update scene height if window is reloaded.
     window.addEventListener('load', () => {
+        // 로딩 제거
+        document.body.classList.remove("before-load");
+        // 레이아웃 초기화
         setLayout();
         // set video first image
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
-        // 로딩 제거
-        document.body.classList.remove("before-load");
+
+        init();
     });
-    // Update scene height if window size is changed.
-    window.addEventListener('resize', setLayout);
-
-    // 로딩 Element 제거: transition 끝난 후 처리
-    document.querySelector(".loading").addEventListener("transitionend", (e) => {
-        document.body.removeChild(e.currentTarget);
-    })
-
 })();
