@@ -101,7 +101,7 @@
             images: [],
         },
         values: {
-            imagePath: ["./assets/image/eclipse.jpg", "./assets/image/moon.jpg"],
+            imagePath: ["./assets/image/eclipse.jpg", "./assets/image/astronaut.jpg"],
             rectLeftX: [0, 0, { start: 0, end: 0 }],
             rectRightX: [0, 0, { start: 0, end: 0 }],
             blendHeight: [0 , 0, { start: 0, end: 0 }],
