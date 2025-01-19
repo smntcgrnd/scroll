@@ -1,5 +1,8 @@
 body {
 }
+body.before-load {
+    overflow: hidden;
+}
 
 /* 로딩 */
 .loading {
