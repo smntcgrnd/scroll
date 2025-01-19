@@ -103,6 +103,7 @@ header {
 .current-scene-2 #ss__2 .sticky,
 .current-scene-3 #ss__3 .sticky {
     display: block;
+    will-change: transform, opacity;
 }
 .sticky {
     display: none;
