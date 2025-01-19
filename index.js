@@ -515,8 +515,15 @@
         setLayout();
         // set video first image
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
+        // 로딩 제거
+        document.body.classList.remove("before-load");
     });
     // Update scene height if window size is changed.
     window.addEventListener('resize', setLayout);
+
+    // 로딩 Element 제거: transition 끝난 후 처리
+    document.querySelector(".loading").addEventListener("transitionend", (e) => {
+        document.body.removeChild(e.currentTarget);
+    })
 
 })();
