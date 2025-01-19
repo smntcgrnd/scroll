@@ -441,11 +441,16 @@
                         values.canvas_scale[2].end = values.canvas_scale[2].start + 0.2;
 
                         objs.canvas.style.transform = `scale(${calcValues(values.canvas_scale, currentYOffset)})`;
+                        objs.canvas.style.marginTop = 0;
+                    }
 
+                    // 캔버스 sticky 처리 제거, martin-top 값 부여
+                    if (currentScrollRatio > values.canvas_scale[2].end && values.canvas_scale[2].end > 0) {
+                        objs.canvas.classList.remove("sticky-canvas");
+                        objs.canvas.style.marginTop = `${currentScrollHeight * 0.4}px`;
                     }
                 }
 
-                console.log("step: " + step);
                 break;
 
             default:
