@@ -140,6 +140,15 @@
     }
     setCanvasImages();
 
+    // 헤더 sticky 핸들러
+    const handleHeader = () => {
+        if (currentY > 50) {
+            document.body.classList.add("header-sticky");
+        } else {
+            document.body.classList.remove("header-sticky");
+        }
+    };
+
     //  레이아웃 초기화
     const setLayout = () => {
         //  각 스크롤 섹션의 높이 세팅
@@ -498,6 +507,7 @@
     window.addEventListener('scroll', () => {
         currentY = window.scrollY;
         setCurrentScene();
+        handleHeader();
     })
 
     // Update scene height if window is reloaded.
