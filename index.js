@@ -106,6 +106,8 @@
             rectRightX: [0, 0, { start: 0, end: 0 }],
             blendHeight: [0 , 0, { start: 0, end: 0 }],
             canvas_scale: [0 , 0, { start: 0, end: 0 }],
+            canvasCaption_opacity: [0, 1, { start: 0, end: 0 }],
+            canvasCaption_translateY: [20, 0, { start: 0, end: 0 }],
             rectStartY: 0,
         }
     }];
@@ -448,6 +450,15 @@
                     if (currentScrollRatio > values.canvas_scale[2].end && values.canvas_scale[2].end > 0) {
                         objs.canvas.classList.remove("sticky-canvas");
                         objs.canvas.style.marginTop = `${currentScrollHeight * 0.4}px`;
+
+                        // 캔버스 캡션 초기값 지정
+                        values.canvasCaption_opacity[2].start = values.canvas_scale[2].end;
+                        values.canvasCaption_opacity[2].end = values.canvasCaption_opacity[2].start + 0.1;
+                        objs.canvasCaption.style.opacity = calcValues(values.canvasCaption_opacity, currentYOffset);
+
+                        values.canvasCaption_translateY[2].start = values.canvas_scale[2].end;
+                        values.canvasCaption_translateY[2].end = values.canvasCaption_translateY[2].start + 0.1;
+                        objs.canvasCaption.style.transform = `translate3d(0, ${calcValues(values.canvasCaption_translateY, currentYOffset)}%, 0)`;
                     }
                 }
 
